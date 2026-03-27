@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- iOS & Android Mobile Optimizations -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Time Card">
+    <meta name="theme-color" content="#f8fafc">
+    
+    <title>Time Card Correction</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Prevents iOS from adding its own weird styling to inputs */
+        input[type="date"], input[type="text"], select, textarea {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 py-6 px-4 sm:px-6 lg:px-8 font-sans flex flex-col items-center pb-20">
+
+    <!-- App Header -->
+    <div class="w-full max-w-2xl mb-6 text-center mt-4">
+        <div class="inline-flex items-center justify-center p-3 bg-blue-100 rounded-full mb-3 shadow-sm">
+            <!-- Clock Icon SVG -->
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Time Card Correction</h1>
+        <p class="text-slate-500 mt-2 text-sm px-4">Fill out the details below to submit a manual punch correction.</p>
+    </div>
+
+    <!-- Main Form Card -->
+    <form id="timeCardForm" class="bg-white p-5 sm:p-10 shadow-lg rounded-2xl w-full max-w-2xl border border-slate-200">
+        
+        <div class="space-y-5">
+            
+            <!-- Row 1: Date and Day -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label class="text-xs font-bold text-slate-700 mb-1 uppercase tracking-wide">Date</label>
+                    <input type="date" id="date" required class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-900 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-xs font-bold text-slate-700 mb-1 uppercase tracking-wide">Day</label>
+                    <select id="day" required class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-900 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all">
+                        <option value="" disabled selected>Select...</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Row 2: Name & Emp -->
+            <div class="flex flex-col">
+                <label class="text-xs font-bold text-slate-700 mb-1 uppercase tracking-wide">Name & Emp#</label>
+                <input type="text" id="nameAndEmp" required placeholder="Doe, Jane - #12345" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-900 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all">
+            </div>
+
+            <div class="border-t border-slate-100 my-2"></div>
+
+            <!-- Row 3 & 4: Schedules -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label class="text-xs font-bold text-slate-700 mb-1 uppercase tracking-wide">Posted Work Schedule</label>
+                    <input type="text" id="postedWorkSchedule" placeholder="e.g. 9:00am - 5:00pm" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-900 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-xs font-bold text-slate-700 mb-1 uppercase tracking-wide">Posted Lunch Schedule</label>
+                    <input type="text" id="postedLunchSchedule" placeholder="e.g. 12:30pm - 1:00pm" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-900 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all">
+                </div>
+            </div>
+
+            <div class="border-t border-slate-100 my-2"></div>
+
+            <!-- Row 5: New Punch Time -->
+            <div class="flex flex-col">
+                <label class="text-xs font-bold text-slate-700 mb-1 uppercase tracking-wide">Requested "New Punch Time"</label>
+                <input type="text" id="newPunchTime" required placeholder="e.g. Punch out at 6:00pm" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-900 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all">
+            </div>
+
+            <!-- Row 6: Checkboxes (Mobile Optimized) -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 grid grid-cols-3 gap-2 text-center">
+                <label class="flex flex-col items-center justify-center space-y-2 cursor-pointer p-2 bg-white rounded-lg border border-slate-200 shadow-sm">
+                    <input type="checkbox" id="isOT" class="w-6 h-6 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                    <span class="text-xs font-bold text-slate-700">OT</span>
+                </label>
+                <label class="flex flex-col items-center justify-center space-y-2 cursor-pointer p-2 bg-white rounded-lg border border-slate-200 shadow-sm">
+                    <input type="checkbox" id="isEarlyOut" class="w-6 h-6 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                    <span class="text-xs font-bold text-slate-700">Early Out</span>
+                </label>
+                <label class="flex flex-col items-center justify-center space-y-2 cursor-pointer p-2 bg-white rounded-lg border border-slate-200 shadow-sm">
+                    <input type="checkbox" id="isEarlyIn" class="w-6 h-6 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                    <span class="text-xs font-bold text-slate-700">Early In</span>
+                </label>
+            </div>
+
+            <!-- Row 7: Reason -->
+            <div class="flex flex-col">
+                <label class="text-xs font-bold text-slate-700 mb-1 uppercase tracking-wide">Reason to add Punch</label>
+                <textarea id="reason" required rows="2" placeholder="Briefly explain why..." class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-900 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all resize-none"></textarea>
+            </div>
+
+            <!-- Row 8: Manager Approval -->
+            <div class="flex flex-col">
+                <label class="text-xs font-bold text-slate-700 mb-1 uppercase tracking-wide">Manager Approval (Print Name)</label>
+                <input type="text" id="managerApproval" placeholder="e.g. John Smith" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-900 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all">
+            </div>
+
+        </div>
+
+        <!-- Action Buttons (Large for thumbs) -->
+        <div class="mt-8 flex flex-col gap-3">
+            <button type="submit" id="submitBtn" class="w-full flex items-center justify-center px-4 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 active:bg-blue-800 transition-colors focus:outline-none shadow-md">
+                <!-- Send Icon SVG -->
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                </svg>
+                Submit Form to HR
+            </button>
+
+            <button type="reset" class="w-full flex items-center justify-center px-4 py-3 bg-white text-slate-500 border border-slate-300 rounded-xl font-bold hover:bg-slate-50 active:bg-slate-100 transition-colors focus:outline-none">
+                Clear Form
+            </button>
+        </div>
+
+    </form>
+
+    <!-- App Logic -->
+    <script>
+        document.getElementById('timeCardForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = 'Opening Email App...';
+
+            // --- SET TO YOUR HR EMAIL ---
+            const targetEmail = 'sam@baypestsolution.com'; 
+            
+            // Collect all data from the form
+            const date = document.getElementById('date').value;
+            const day = document.getElementById('day').value;
+            const nameAndEmp = document.getElementById('nameAndEmp').value;
+            const postedWorkSchedule = document.getElementById('postedWorkSchedule').value;
+            const postedLunchSchedule = document.getElementById('postedLunchSchedule').value;
+            const newPunchTime = document.getElementById('newPunchTime').value;
+            const isOT = document.getElementById('isOT').checked ? 'Yes' : 'No';
+            const isEarlyOut = document.getElementById('isEarlyOut').checked ? 'Yes' : 'No';
+            const isEarlyIn = document.getElementById('isEarlyIn').checked ? 'Yes' : 'No';
+            const reason = document.getElementById('reason').value;
+            const managerApproval = document.getElementById('managerApproval').value;
+
+            // Create the email subject
+            const subject = `Time Card Correction: ${nameAndEmp || 'Unknown'}`;
+            
+            // Format the email body cleanly
+            const body = `
+TIME CARD CORRECTION FORM
+=================================
+
+EMPLOYEE: ${nameAndEmp}
+DATE: ${date} (${day})
+
+--- SCHEDULE ---
+Work Schedule: ${postedWorkSchedule || 'Not provided'}
+Lunch Schedule: ${postedLunchSchedule || 'Not provided'}
+
+--- CORRECTION ---
+Requested Punch Time: ${newPunchTime}
+Reason: ${reason}
+
+--- FLAGS ---
+Overtime (OT): ${isOT}
+Early Out: ${isEarlyOut}
+Early In: ${isEarlyIn}
+
+--- APPROVAL ---
+Manager Name: ${managerApproval || 'Not provided'}
+
+=================================
+Submitted via Mobile Time Card App.
+            `.trim();
+
+            // Trigger the device's default email client
+            window.location.href = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Reset button text
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
